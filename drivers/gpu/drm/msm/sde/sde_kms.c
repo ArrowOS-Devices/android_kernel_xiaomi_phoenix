@@ -2731,6 +2731,7 @@ static void _sde_kms_null_commit(struct drm_device *dev,
 	struct drm_connector_state *conn_state = NULL;
 	int retry_cnt = 0;
 	int ret = 0;
+	int tmp, tmp2;
 
 	drm_modeset_acquire_init(&ctx, 0);
 
@@ -2775,9 +2776,9 @@ retry:
 	}
 
 	crtc_state->active = true;
-	drm_atomic_set_crtc_for_connector(conn_state, enc->crtc);
+	tmp = drm_atomic_set_crtc_for_connector(conn_state, enc->crtc);
 
-	drm_atomic_commit(state);
+	tmp2 = drm_atomic_commit(state);
 end:
 	if (state)
 		drm_atomic_state_put(state);

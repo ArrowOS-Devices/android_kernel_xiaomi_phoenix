@@ -207,7 +207,7 @@ static enum tfa_error tfa98xx_write_re25(struct tfa_device *tfa, int value)
 static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profile, int vstep)
 {
 	enum tfa_error err;
-	ktime_t start_time, stop_time;
+	ktime_t start_time = 0, stop_time = 0;
 	u64 delta_time;
 
 	pr_debug("%s  next_profile=%d  vstep=%d\n", __func__, next_profile, vstep);
@@ -519,7 +519,7 @@ static ssize_t tfa98xx_dbgfs_start_set(struct file *file,
 	struct i2c_client *i2c = file->private_data;
 	struct tfa98xx *tfa98xx = i2c_get_clientdata(i2c);
 	enum tfa_error ret;
-	char buf[32];
+	char buf[32] = {0};
 	const char ref[] = "please calibrate now";
 	int buf_size;
 
@@ -669,7 +669,7 @@ static ssize_t tfa98xx_dbgfs_dsp_state_set(struct file *file,
 	struct i2c_client *i2c = file->private_data;
 	struct tfa98xx *tfa98xx = i2c_get_clientdata(i2c);
 	enum tfa_error ret;
-	char buf[32];
+	char buf[32] = {0};
 	const char start_cmd[] = "start";
 	const char stop_cmd[] = "stop";
 	const char mon_start_cmd[] = "monitor start";

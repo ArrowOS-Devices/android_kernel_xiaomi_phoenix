@@ -3984,8 +3984,10 @@ static void sde_crtc_atomic_begin(struct drm_crtc *crtc,
 	if (sde_encoder_check_curr_mode(sde_crtc->mixers[0].encoder,
 					MSM_DISPLAY_VIDEO_MODE) &&
 		kthread_cancel_delayed_work_sync(&sde_crtc->idle_notify_work))
-		idle_status = false;
-		SDE_DEBUG("idle notify work cancelled\n");
+		{
+			idle_status = false;
+			SDE_DEBUG("idle notify work cancelled\n");
+		}
 
 	/*
 	 * Since CP properties use AXI buffer to program the

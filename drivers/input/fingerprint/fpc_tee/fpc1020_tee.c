@@ -232,10 +232,11 @@ release_irq_gpio:
 				dev_info(dev, "fpc irq gpio released successfully!\n");
 			}
 release_vreg_gpio:
-			if (gpio_is_valid(fpc1020->vdd1v8_gpio))
+			if (gpio_is_valid(fpc1020->vdd1v8_gpio)){
 				devm_gpio_free(dev, fpc1020->vdd1v8_gpio);
 				vreg_conf[0].gpio = FPC_GPIO_NO_DEFAULT;
 				dev_info(dev, "fpc vreg gpio released successfully!\n");
+			}
 	}
 
 exit:   mutex_unlock(&fpc1020->lock);
@@ -720,8 +721,7 @@ static ssize_t vendor_update(struct device *dev,
 	struct device_attribute *attr,
 	const char *buf, size_t count)
 {
-	int rc;
-	return rc ? rc : count;
+	return count;
 }
 static DEVICE_ATTR(vendor, S_IWUSR, NULL, vendor_update);
 

@@ -3562,10 +3562,9 @@ static int smblib_update_thermal_readings(struct smb_charger *chg)
 #define CONNECTOR_THERM_HIG			500	/* 50 Dec */
 #define CONNECTOR_THERM_TOO_HIG		700	/* 70 Dec */
 
-int smblib_set_vbus_disable(struct smb_charger *chg,
+void smblib_set_vbus_disable(struct smb_charger *chg,
 					bool disable)
 {
-	int ret;
 
 	smblib_dbg(chg, PR_OEM, "set vbus disable:%d\n", disable);
 	if (disable) {
@@ -3579,7 +3578,6 @@ int smblib_set_vbus_disable(struct smb_charger *chg,
 	}
 	chg->vbus_disable = disable;
 
-	return ret;
 }
 
 static int smblib_set_sw_conn_therm_regulation(struct smb_charger *chg,
@@ -4275,11 +4273,12 @@ int smblib_get_prop_usb_voltage_now(struct smb_charger *chg,
 
 restore_adc_config:
 	 /* Restore ADC channel config */
-	if (chg->wa_flags & USBIN_ADC_WA)
+	if (chg->wa_flags & USBIN_ADC_WA){
 		rc = smblib_write(chg, BATIF_ADC_CHANNEL_EN_REG, reg);
 		if (rc < 0)
 			smblib_err(chg, "Couldn't write ADC config rc=%d\n",
 						rc);
+	}
 
 unlock:
 	mutex_unlock(&chg->adc_lock);
@@ -6218,9 +6217,10 @@ static int check_reduce_fcc_condition(struct smb_charger *chg)
 
 	if (!chg->cp_psy) {
 		chg->cp_psy = power_supply_get_by_name("bq2597x-standalone");
-		if (!chg->cp_psy)
+		if (!chg->cp_psy){
 			pr_err("cp_psy not found\n");
 			return 0;
+		}
 	}
 
 	rc = power_supply_get_property(chg->cp_psy,

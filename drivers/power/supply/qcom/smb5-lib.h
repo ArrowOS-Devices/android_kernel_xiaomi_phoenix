@@ -1034,7 +1034,7 @@ int smblib_force_vbus_voltage(struct smb_charger *chg, u8 val);
 int smblib_get_irq_status(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_get_qc3_main_icl_offset(struct smb_charger *chg, int *offset_ua);
-int smblib_set_vbus_disable(struct smb_charger *chg,
+void smblib_set_vbus_disable(struct smb_charger *chg,
 					bool disable);
 int smblib_set_fastcharge_mode(struct smb_charger *chg, bool enable);
 int smblib_get_fastcharge_mode(struct smb_charger *chg);

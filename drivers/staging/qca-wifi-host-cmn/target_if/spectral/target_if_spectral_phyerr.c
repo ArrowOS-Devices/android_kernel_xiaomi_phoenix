@@ -785,9 +785,9 @@ target_if_process_phyerr_gen2(struct target_if_spectral *spectral,
 	 */
 
 	struct target_if_samp_msg_params params;
-	struct spectral_search_fft_info_gen2 search_fft_info;
+	struct spectral_search_fft_info_gen2 search_fft_info = {0};
 	struct spectral_search_fft_info_gen2 *p_sfft = &search_fft_info;
-	struct spectral_search_fft_info_gen2 search_fft_info_sec80;
+	struct spectral_search_fft_info_gen2 search_fft_info_sec80 = {0};
 	struct spectral_search_fft_info_gen2 *p_sfft_sec80 =
 		&search_fft_info_sec80;
 	uint32_t segid_skiplen = 0;

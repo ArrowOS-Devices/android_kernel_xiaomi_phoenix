@@ -3395,6 +3395,13 @@ static int cam_icp_mgr_put_cmd_buf(struct cam_packet *packet)
 	return 0;
 }
 
+static inline int update_num_cmd_buf(int num)
+{
+	if(num > 0)
+		return num - 1;
+	return 0;
+}
+
 static int cam_icp_mgr_process_cmd_desc(struct cam_icp_hw_mgr *hw_mgr,
 	struct cam_packet *packet, struct cam_icp_hw_ctx_data *ctx_data,
 	uint32_t *fw_cmd_buf_iova_addr)
@@ -3422,8 +3429,7 @@ static int cam_icp_mgr_process_cmd_desc(struct cam_icp_hw_mgr *hw_mgr,
 			if (rc) {
 				CAM_ERR(CAM_ICP, "get cmd buf failed %x",
 					hw_mgr->iommu_hdl);
-				num_cmd_buf = (num_cmd_buf > 0) ?
-					num_cmd_buf-- : 0;
+				num_cmd_buf = update_num_cmd_buf(num_cmd_buf);
 				goto rel_cmd_buf;
 			}
 			*fw_cmd_buf_iova_addr = addr;
@@ -3446,8 +3452,7 @@ static int cam_icp_mgr_process_cmd_desc(struct cam_icp_hw_mgr *hw_mgr,
 				CAM_ERR(CAM_ICP, "get cmd buf failed %x",
 					hw_mgr->iommu_hdl);
 				*fw_cmd_buf_iova_addr = 0;
-				num_cmd_buf = (num_cmd_buf > 0) ?
-					num_cmd_buf-- : 0;
+				num_cmd_buf = update_num_cmd_buf(num_cmd_buf);
 				goto rel_cmd_buf;
 			}
 			if ((len <= cmd_desc[i].offset) ||
